@@ -4,15 +4,14 @@ toc: false
 sql:
   afinidad: data/affinity_details_with_names.parquet
 ---
+# Dime cómo votas…
 
+Esta página explora la **afinidad** entre diputadas y diputados en función de su comportamiento en **996 votaciones** realizadas entre enero y octubre de 2024.
 
-# Dime como votas ...
-Esta página explora la afinidad entre diputadas y diputados de acuerdo a su comportamiento en 996 votaciones entre Enero y Octubre de 2024.
+Por ejemplo, si la diputada Cariola y el diputado Kaiser han participado **simultáneamente** en **768 votaciones** y han votado de la misma manera en **281 ocasiones** (en **263 ambos afirmativo**, en **14 ambos en contra** y en **4 ambos abstención**), entonces se dice que tienen un **36,6% de afinidad** (es decir, en el **36,6%** de las votaciones han coincidido). Asimismo, existe un **63,4% de distancia** (lo que significa que en el **63,4%** de las votaciones han votado de manera diferente).
 
-Por ejemplo, si Diputada Cariola y el Diputado Kaiser han concurrido a 768 votaciones y en 281 han votado de la misma manera (en 263 ambos Afirmativo, en 14 ambos En Contra y en 4 ambos Abstención), entonces decimos que tienen un 36,6% de **afinidad** (en 36,6% de las votaciones votaron de la misma manera).  Y también hay un 63,4% de **distancia** (en 63,4% de las votaciones votan de manera diferente).
-
-## Visualización de la distancia de una diputada o diputado con el resto de sus pares
-Si seleccionas una persona, podrás ver gráficamente la distancia (según votaciones) de esa persona con el resto de las o los diputados.
+## Visualización de la distancia entre diputadas y diputados
+Si seleccionas a una diputada o diputado, podrás ver gráficamente la **distancia** que tiene en términos de votaciones con el resto de sus colegas.
 ```js
 const dipSeleccionado = view(Inputs.select(  
   _.chain(listaDiputados)
