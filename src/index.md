@@ -36,6 +36,10 @@ WHERE diputado1Id = ${dipSeleccionado.Id} OR diputado2Id = ${dipSeleccionado.Id}
 
 ```
 
+```js
+width < 700 ? html`<b style="color:red;">Se recomienda ver en una pantalla de mayor tamaño<b>`: html`<span></span>`
+```
+
 <div class="card">
 <div>${chart1}</div>
 </div><!--card-->
@@ -131,7 +135,8 @@ const chart1 = (()=> {
 })()
 
 ```
-
+```js
+/*
 
 ## Conglomerados según afinidad
 A continuación se muestran conglomerados o agrupaciones de parlamentarios según su cercanía en la manera de votar. Para generar los grupos de parlamentarios, se empleó un enfoque de conglomerados jerárquicos (también conocido como clustering jerárquico). Este método nos permite agrupar a los parlamentarios según sus similitudes en las votaciones, sin necesidad de determinar previamente el número de grupos.
@@ -149,7 +154,7 @@ const numGroups = view(Inputs.radio([2, 5, 19], {
   label: "Número de conglomerados",
   value: 5
 }));
-```
+
 
 <div class="card">
 <div>${chart2}</div>
@@ -178,6 +183,7 @@ const chart2 = (() => {
     selectClusters: []
   });
 })()
+*/
 ```
 
 ```js
@@ -379,5 +385,5 @@ function buildCirclePack(dataWChildren, { selectClusters = [] , clusterSize=0, s
 ```
 
 ## Fuente de datos
-Datos abiertos publicados por la Cámara de Diputados y Diputadas de Chile, https://www.camara.cl/transparencia/datosAbiertos.aspx
+Elaboración propia de @elaval en base a datos abiertos de votaciones publicados por la Cámara de Diputados y Diputadas de Chile, https://www.camara.cl/transparencia/datosAbiertos.aspx
 
