@@ -63,13 +63,19 @@ const chart1 = (()=> {
   const radio = width / 55;
 
   return Plot.plot({
-    style: { fontSize: 16 },
+    style: { fontSize: 12 },
         marginTop: 50,
 
     marginBottom: 50,
     //marginLeft: 0,
     x: { inset: 20, label: "Fecha de nacimiento" },
-    y: { reverse: true, ticks: 0, label: "", labelArrow: "none" },
+ y: {
+      reverse: true,
+      ticks: 10,
+      label: "",
+      labelArrow: "none",
+      tickFormat: "%"
+    },
     height: width*3/4,
     width,
     marks: [
@@ -101,21 +107,24 @@ const chart1 = (()=> {
           }
         )
       ),
-      Plot.text(
-        [
-          { distancia: 0, text: "Menor distancia" },
-          { distancia: maxDistancia, text: "Mayor distancia" }
-        ],
-        {
-          y: "distancia",
-          dy: 0,
-          dx: -width / 2,
-          text: "text",
-          fontSize: width/30,
-          fill: "grey",
-          textAnchor: "start"
-        }
-      )
+      Plot.text([{ distancia: 0, text: "Menor distancia" }], {
+        y: "distancia",
+        dy: -radio - 10,
+        dx: -width / 2,
+        text: "text",
+        fontSize: width / 30,
+        fill: "grey",
+        textAnchor: "start"
+      }),
+      Plot.text([{ distancia: maxDistancia, text: "Mayor distancia" }], {
+        y: "distancia",
+        dy: radio,
+        dx: -width / 2,
+        text: "text",
+        fontSize: width / 30,
+        fill: "grey",
+        textAnchor: "start"
+      })
     ]
   });
 
