@@ -78,7 +78,7 @@ const chart1 = (()=> {
       ticks: 10,
       label: "",
       labelArrow: "none",
-      tickFormat: "%"
+      tickFormat: "%",grid:true
     },
     height: width*3/4,
     width,
