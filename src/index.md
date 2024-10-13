@@ -36,10 +36,14 @@ WHERE diputado1Id = ${dipSeleccionado.Id} OR diputado2Id = ${dipSeleccionado.Id}
 
 ```
 
+<div class="card">
+<div>${chart1}</div>
+</div><!--card-->
+
 
 
 ```js
-(()=> {
+const chart1 = (()=> {
   
   const data = _.concat(
     {
@@ -56,6 +60,8 @@ WHERE diputado1Id = ${dipSeleccionado.Id} OR diputado2Id = ${dipSeleccionado.Id}
     .max()
     .value();
 
+  const radio = width / 55;
+
   return Plot.plot({
     style: { fontSize: 16 },
         marginTop: 50,
@@ -64,7 +70,7 @@ WHERE diputado1Id = ${dipSeleccionado.Id} OR diputado2Id = ${dipSeleccionado.Id}
     //marginLeft: 0,
     x: { inset: 20, label: "Fecha de nacimiento" },
     y: { reverse: true, ticks: 0, label: "", labelArrow: "none" },
-    height: 600,
+    height: width*3/4,
     width,
     marks: [
       Plot.image(
@@ -74,7 +80,7 @@ WHERE diputado1Id = ${dipSeleccionado.Id} OR diputado2Id = ${dipSeleccionado.Id}
           {
             y: "distancia",
             src: (d) => `https://www.camara.cl/img.aspx?prmID=GRCL${d.id}`,
-            r: 15,
+            r: radio,
             preserveAspectRatio: "xMidYMin slice",
             tip: true,
             title: (d) => `${getFullName(d.id)}`
@@ -88,10 +94,10 @@ WHERE diputado1Id = ${dipSeleccionado.Id} OR diputado2Id = ${dipSeleccionado.Id}
           {
             y: "distancia",
             text: (d) => `${getFullName(d.id)}`,
-            r: 15,
+            r: radio,
             opacity: (d) => (d.id == dipSeleccionado.Id ? 1 : 0),
             fontSize: 14,
-            dy: -25
+            dy: -radio -10
           }
         )
       ),
@@ -105,7 +111,7 @@ WHERE diputado1Id = ${dipSeleccionado.Id} OR diputado2Id = ${dipSeleccionado.Id}
           dy: 0,
           dx: -width / 2,
           text: "text",
-          fontSize: 32,
+          fontSize: width/30,
           fill: "grey",
           textAnchor: "start"
         }
@@ -121,15 +127,13 @@ WHERE diputado1Id = ${dipSeleccionado.Id} OR diputado2Id = ${dipSeleccionado.Id}
 ## Conglomerados según afinidad
 A continuación se muestran conglomerados o agrupaciones de parlamentarios según su cercanía en la manera de votar. Para generar los grupos de parlamentarios, se empleó un enfoque de conglomerados jerárquicos (también conocido como clustering jerárquico). Este método nos permite agrupar a los parlamentarios según sus similitudes en las votaciones, sin necesidad de determinar previamente el número de grupos.
 
-¿Cómo funciona este método?
-
+¿Cómo funciona este método?  
+  
 **Comparación de votaciones**: Primero, se analiza cómo ha votado cada parlamentario en comparación con los demás. Se identifica el grado de similitud entre sus patrones de votación.  
-**Agrupación inicial:** Los parlamentarios que tienen patrones de votación más similares se agrupan juntos. Esto se hace de manera progresiva, comenzando por los que son más parecidos.
-**Construcción de una jerarquía**: Estos grupos iniciales se vuelven a comparar entre sí. Los grupos que son similares se unen para formar grupos más grandes. Este proceso se repite, creando una estructura en forma de árbol que muestra cómo se agrupan los parlamentarios en diferentes niveles.
-**Visualización de resultados**: El resultado es una representación que nos permite ver claramente las afinidades y alianzas entre los parlamentarios. Podemos identificar grupos que comparten opiniones similares o que suelen votar de manera parecida.
-¿Por qué es útil este enfoque?
-
-
+**Agrupación inicial:** Los parlamentarios que tienen patrones de votación más similares se agrupan juntos. Esto se hace de manera progresiva, comenzando por los que son más parecidos.  
+**Construcción de una jerarquía**: Estos grupos iniciales se vuelven a comparar entre sí. Los grupos que son similares se unen para formar grupos más grandes. Este proceso se repite, creando una estructura en forma de árbol que muestra cómo se agrupan los parlamentarios en diferentes niveles.  
+**Visualización de resultados**: El resultado es una representación que nos permite ver claramente las afinidades y alianzas entre los parlamentarios. Podemos identificar grupos que comparten opiniones similares o que suelen votar de manera parecida.  
+¿Por qué es útil este enfoque?  
 Esta es una herramienta para analizar y comprender el comportamiento legislativo. EL ejercicio ayuda a revelar patrones ocultos en las votaciones, permitiendo entender mejor las dinámicas políticas y las posibles alianzas.
 ```js
 const numGroups = view(Inputs.radio([2, 5, 19], {
@@ -138,8 +142,12 @@ const numGroups = view(Inputs.radio([2, 5, 19], {
 }));
 ```
 
+<div class="card">
+<div>${chart2}</div>
+</div><!--card-->
+
 ```js
-(() => {
+const chart2 = (() => {
   const dataWChildren = {
     children: _.chain(dataClustersPorTamaño[numGroups])
       .groupBy((d) => d.cluster)
@@ -307,7 +315,14 @@ function buildCirclePack(dataWChildren, { selectClusters = [] , clusterSize=0, s
   // Add a filled or stroked circle.
   node
     .append("circle")
-    .attr("fill", (d) => (d.children ? "#fff" : "red"))
+    .attr("fill", (d) => 
+     d.depth == 0
+        ? "none"
+        : d.children
+        ? "#fff"
+        : searchText && d.data.fullName.match(searchRegExp)
+        ? "orange"
+        : "")
     .attr("stroke", (d) =>
       d.depth == 0
         ? ""
